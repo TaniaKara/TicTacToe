@@ -73,11 +73,10 @@ function Square(props) {
 
     sortMoves(moves) {
         let sortedMoves = [];
-        if(this.state.sorted === false){ // moves are sorted asc
+        if(!this.state.sorted){ // moves are sorted asc
             return moves;
-        } else {
-            sortedMoves.push(moves[0]);
-            for (let i = moves.length - 1; i > 0; i--) {
+        } else {            
+            for (let i = moves.length - 1; i >= 0; i--) {
                 sortedMoves.push(moves[i]);
             }
         }
