@@ -1,4 +1,4 @@
-This is TicTacToe game folloed by the tutorial on https://reactjs.org/tutorial/tutorial.html.
+This is TicTacToe game followed by the tutorial on https://reactjs.org/tutorial/tutorial.html.
 
 Also, the following additional tasks were completed and added to the project: 
 
