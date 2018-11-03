@@ -59,50 +59,63 @@ function Square(props) {
     constructor(props)    {
         super(props);
         this.state = {
-            sorted: 0, // 0 = ascending, 1 = descending
-        };        
+            sorted: false, // 0 = ascending, 1 = descending
+        };         
     }
 
     jumpTo(step) {
         this.props.jumpTo(step);
     }
 
-    handleSort() {                
+    handleSortClick() {                
         this.setState({sorted: !this.state.sorted})
+    }
+
+    sortMoves(moves) {
+        let sortedMoves = [];
+        if(this.state.sorted === false){ // moves are sorted asc
+            return moves;
+        } else {
+            sortedMoves.push(moves[0]);
+            for (let i = moves.length - 1; i > 0; i--) {
+                sortedMoves.push(moves[i]);
+            }
+        }
+        return sortedMoves;
     }
   
     render() {
         const history = this.props.history;
-        /*let sortedHistory = [];
-        if(this.state.sorted === 0) {
-            sortedHistory = history.slice(1).map((step) => step);
-        } else {
-            sortedHistory = history.slice(1).reverse();
-        }
-        console.log(sortedHistory);*/
         const moves = history.map((step, move) => {
             const column = step.squareClicked % 3 + 1;
-            const row = Math.floor(step.squareClicked / 3) + 1; 
+            const row = Math.floor(step.squareClicked / 3) + 1;
             const stepName = `Go to move #${move}: (${column}, ${row})`;
             const desc = move ? 
                 move === this.props.stepNumber ? <b>{stepName}</b> : stepName
                 : 'Go to game start';          
             return (
-                <GameHistoryMove key = {move} description = {desc} onClick = {() => this.jumpTo(move)}/>                
+                <GameHistoryMove 
+                    key = {move} 
+                    description = {desc} 
+                    onClick = {() => this.jumpTo(move)}
+                />                
             );
-        });        
+        });
+        
+        const sortedMoves = this.sortMoves(moves);
 
         return (
             <div>
-                <button onClick = {() => this.handleSort()}>
-                    {this.state.sorted ? `Sort descending` : `Sort ascending`}
+                <button onClick = {() => this.handleSortClick()}>
+                    {this.state.sorted ? `Sorted descending` : `Sorted ascending`}
                 </button>
-                <ol>{moves}</ol>
+                <ol>{sortedMoves}</ol>
             </div>            
         );
     }
   }
   
+
   class Game extends React.Component {
     constructor(props) {
         super(props);
